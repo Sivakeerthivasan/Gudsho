@@ -1,0 +1,46 @@
+{
+  "editVideo": "Edit Video",
+  "@editVideo": {
+    "description": "Button to edit the selected video"
+  },
+
+  "addMusic": "Add Music",
+  "@addMusic": {
+    "description": "Button to add background music to the video"
+  },
+
+  "trimVideo": "Trim Video",
+  "@trimVideo": {
+    "description": "Button to trim the video to the desired length"
+  },
+
+  "applyFilters": "Apply Filters",
+  "@applyFilters": {
+    "description": "Button to apply visual filters to the video"
+  },
+
+  "exportVideo": "Export Video",
+  "@exportVideo": {
+    "description": "Button to export the final edited video"
+  },
+
+  "videoQuality": "Video Quality",
+  "@videoQuality": {
+    "description": "Label for selecting video export quality"
+  },
+
+  "addText": "Add Text",
+  "@addText": {
+    "description": "Button to add text overlays to the video"
+  },
+
+  "undo": "Undo",
+  "@undo": {
+    "description": "Button to undo the last action"
+  },
+
+  "redo": "Redo",
+  "@redo": {
+    "description": "Button to redo the last undone action"
+  }
+}
