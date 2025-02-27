@@ -22,7 +22,7 @@ class AppTextStyles {
         fontFamily: fontFamily ?? 'Inter',
         fontWeight: fontWeight ?? FontWeight.w500,
         fontSize: fontSize ?? 14,
-        color: fontColor ?? Colors.black,
+        color: fontColor ?? Color(0xff010101),
       );
 
   static TextStyle bold(
