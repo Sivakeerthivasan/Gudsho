@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF6200EA); // Purple
-  static const Color secondary = Color(0xFF03DAC6); // Teal
-  static const Color background = Color(0xFFF5F5F5); // Light Gray
-  static const Color textPrimary = Color(0xFF000000); // Black
-  static const Color textSecondary = Color(0xFF757575); // Gray
-  static const Color button = Color(0xFF1E88E5); // Blue
-  static const Color error = Color(0xFFB00020); // Red
+  static const Color buttonColor = Color(0xFF0B4C51);
+  static const Color buttonText = Color(0xFFFFFFFF);
+
+  static const Color textClick = Color(0xFF4F5862);
+  static const Color textfieldBorder = Color(0xFFC9CED2);
+  static const Color textfieldName = Color(0xFF010101);
+  static const Color textClickBOLD = Color(0xFF000000);
+  static const Color textNoClick = Color(0xFF6A6A6A);
+
+  static const Color inputText = Color(0xFF3E454C);
+  static const Color titleName = Color(0xFF22262A);
+  static const Color focusedBorder = Color(0xFF52Ad7E);
+  static const Color borderGL = Color(0xFFB3BAC2);
+
+  static const Color errorText = Colors.red;
 }

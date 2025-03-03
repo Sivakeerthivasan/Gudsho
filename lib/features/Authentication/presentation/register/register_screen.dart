@@ -5,7 +5,7 @@ import 'package:gudsho/core/assets/assets.dart';
 import 'package:gudsho/core/constants/styles/fonts_style.dart';
 import 'package:gudsho/features/Authentication/presentation/homeScreen.dart';
 import 'package:gudsho/features/Authentication/presentation/resetPassword/reset_withMail.dart';
-import 'package:gudsho/features/Authentication/presentation/signIn/signIn_screen.dart';
+import 'package:gudsho/features/Authentication/presentation/signUp/signup_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -24,25 +24,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Column(
         children: [
           Stack(
-            alignment: Alignment.center, // Centers the SVG inside the container
+            alignment: Alignment.center,
             children: [
               Container(
-                height: 80, // The gradient covers only 30 pixels from the top
+                height: 80,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Color(0xffc2f3eb), // Green color at the top
-                      Color(0xffc2f3eb)
-                          .withOpacity(0.0), // Gradual fade at the bottom
+                      Color(0xffc2f3eb),
+                      Color(0xffc2f3eb).withValues(alpha: 0.0),
                     ],
                   ),
                 ),
               ),
               SvgPicture.asset(
-                Assets.gudshowLogo, // Replace with your SVG path
+                Assets.gudshowLogo,
               ),
             ],
           ),
@@ -293,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SigninScreen()),
+                              builder: (context) => const SignupScreen()),
                         );
                       },
                     text: ' Sign up', // Second line

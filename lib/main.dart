@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gudsho/features/Authentication/presentation/signIn/signIn_screen.dart';
+import 'package:gudsho/features/Authentication/presentation/signUp/signup_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Gudsho',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: SigninScreen(),
+      home: SignupScreen(),
     );
   }
 }
