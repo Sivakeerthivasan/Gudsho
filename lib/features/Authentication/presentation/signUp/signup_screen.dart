@@ -1,3 +1,4 @@
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gudsho/core/assets/assets.dart';
@@ -20,6 +21,9 @@ class _SignupScreenState extends State<SignupScreen> {
   final emailFocus = FocusNode();
   final phoneFocus = FocusNode();
   final passwordFocus = FocusNode();
+  final pickerController = FlCountryCodePicker();
+  String countryCode = '+91';
+  CountryCode? countryCode1;
   final TextEditingController _controller = TextEditingController();
   TextEditingController emailController = TextEditingController();
   bool isValidEmail = true;
@@ -79,10 +83,9 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          reverse: true,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 23, right: 23),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 23, right: 23),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Text('Start Crafting Your Videos - \n Sign Up now!',
@@ -91,10 +94,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 30),
                 //Google and linked in
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width / 2.3,
                       height: 45,
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -122,7 +125,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
                     // Facebook Button
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      width: MediaQuery.of(context).size.width / 2.4,
                       height: 45,
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -153,7 +156,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 //Or design
                 SizedBox(
                   height: 13,
-                  width: 329,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   child: Row(
                     children: [
                       Expanded(
@@ -328,9 +331,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 color: AppColors.errorText, fontSize: 12),
                           ),
                         ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      SizedBox(height: 10),
                       Row(
                         children: [
                           Text("Phone Number",
@@ -345,7 +346,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(height: 10),
                       TextFormField(
-                        maxLength: 10,
                         textInputAction: TextInputAction.next,
                         focusNode: phoneFocus,
                         onFieldSubmitted: (value) {
@@ -360,26 +360,37 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SvgPicture.asset(
-                                  Assets.indianFlag,
-                                  width: 23,
-                                  height: 15,
-                                ),
+                                countryCode1?.flagImage() ??
+                                    SvgPicture.asset(
+                                      Assets.indianFlag,
+                                      width: 23,
+                                      height: 15,
+                                    ),
                                 SizedBox(width: 8),
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    final picker = await pickerController
+                                        .showPicker(context: context);
+                                    setState(() {
+                                      countryCode1 = picker;
+                                      countryCode =
+                                          picker?.dialCode.toString() ??
+                                              countryCode;
+                                    });
+                                  },
                                   child: Row(
                                     children: [
                                       Text(
-                                        "+91",
+                                        countryCode,
                                         style: TextStyle(
-                                          color: Color(0xff6A6A6A),
+                                          color: AppColors.textNoClick,
                                           fontSize: 16,
                                         ),
                                       ),
                                       SizedBox(width: 4),
                                       Icon(Icons.arrow_drop_down_rounded,
-                                          color: Color(0xff6A6A6A), size: 20),
+                                          color: AppColors.textNoClick,
+                                          size: 20),
                                     ],
                                   ),
                                 ),
@@ -410,6 +421,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10),
                       Row(
                         children: [
                           Text(
@@ -471,10 +483,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                //checkbox and conditons
                 SizedBox(
                   height: 60,
-                  width: 332,
+                  width: MediaQuery.of(context).size.width,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -505,24 +516,21 @@ class _SignupScreenState extends State<SignupScreen> {
                         width: 10,
                       ),
                       RichText(
-                        textAlign: TextAlign.start,
                         text: TextSpan(
                           style: TextStyle(
                             height: 1.4,
                             fontSize: 12,
                             color: AppColors.textClickBOLD,
                           ),
-                          // Default text style
                           children: [
                             TextSpan(
-                              text: "By continuing, you're agreeing to Gudsho ",
-                            ),
+                                text:
+                                    "By continuing, you're agreeing to Gudsho "),
                             TextSpan(
                               text: "Terms of \nService",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline),
                             ),
                             TextSpan(
                               text: " and ",
@@ -530,14 +538,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             TextSpan(
                               text: "Privacy Policy",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline),
                             ),
                             TextSpan(
-                              text:
-                                  ". Consent includes receiving \nmarketing information from Gudsho.",
-                            ),
+                                text:
+                                    ". Consent includes receiving \nmarketing information from Gudsho."),
                           ],
                         ),
                       )
@@ -576,11 +582,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Already have an account?',
-                      style: AppTextStyles.medium(
-                          fontSize: 12, fontColor: AppColors.textNoClick),
-                    ),
+                    Text('Already have an account?',
+                        style: AppTextStyles.medium(
+                            fontSize: 12, fontColor: AppColors.textNoClick)),
                     InkWell(
                       onTap: () {
                         Navigator.push(
@@ -589,14 +593,13 @@ class _SignupScreenState extends State<SignupScreen> {
                               builder: (context) => const RegisterScreen()),
                         );
                       },
-                      child: Text(
-                        ' Sign in',
-                        style: AppTextStyles.medium(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                      ),
+                      child: Text(' Sign in',
+                          style: AppTextStyles.medium(
+                              fontWeight: FontWeight.bold, fontSize: 12)),
                     )
                   ],
-                )
+                ),
+                SizedBox(height: 26)
               ],
             ),
           ),
