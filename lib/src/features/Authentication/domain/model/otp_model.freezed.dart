@@ -23,7 +23,7 @@ mixin _$OtpModel {
   int get status => throw _privateConstructorUsedError;
   String get message => throw _privateConstructorUsedError;
   String get data => throw _privateConstructorUsedError;
-  bool get error => throw _privateConstructorUsedError;
+  bool? get error => throw _privateConstructorUsedError;
 
   /// Serializes this OtpModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $OtpModelCopyWith<$Res> {
   factory $OtpModelCopyWith(OtpModel value, $Res Function(OtpModel) then) =
       _$OtpModelCopyWithImpl<$Res, OtpModel>;
   @useResult
-  $Res call({int status, String message, String data, bool error});
+  $Res call({int status, String message, String data, bool? error});
 }
 
 /// @nodoc
@@ -61,7 +61,7 @@ class _$OtpModelCopyWithImpl<$Res, $Val extends OtpModel>
     Object? status = null,
     Object? message = null,
     Object? data = null,
-    Object? error = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -76,10 +76,10 @@ class _$OtpModelCopyWithImpl<$Res, $Val extends OtpModel>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as String,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ) as $Val);
   }
 }
@@ -92,7 +92,7 @@ abstract class _$$OtpModelImplCopyWith<$Res>
       __$$OtpModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int status, String message, String data, bool error});
+  $Res call({int status, String message, String data, bool? error});
 }
 
 /// @nodoc
@@ -111,7 +111,7 @@ class __$$OtpModelImplCopyWithImpl<$Res>
     Object? status = null,
     Object? message = null,
     Object? data = null,
-    Object? error = null,
+    Object? error = freezed,
   }) {
     return _then(_$OtpModelImpl(
       status: null == status
@@ -126,10 +126,10 @@ class __$$OtpModelImplCopyWithImpl<$Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as String,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }
@@ -153,7 +153,7 @@ class _$OtpModelImpl implements _OtpModel {
   @override
   final String data;
   @override
-  final bool error;
+  final bool? error;
 
   @override
   String toString() {
@@ -196,7 +196,7 @@ abstract class _OtpModel implements OtpModel {
       {required final int status,
       required final String message,
       required final String data,
-      required final bool error}) = _$OtpModelImpl;
+      required final bool? error}) = _$OtpModelImpl;
 
   factory _OtpModel.fromJson(Map<String, dynamic> json) =
       _$OtpModelImpl.fromJson;
@@ -208,7 +208,7 @@ abstract class _OtpModel implements OtpModel {
   @override
   String get data;
   @override
-  bool get error;
+  bool? get error;
 
   /// Create a copy of OtpModel
   /// with the given fields replaced by the non-null parameter values.

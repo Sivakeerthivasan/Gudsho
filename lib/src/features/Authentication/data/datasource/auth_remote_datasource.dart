@@ -78,11 +78,13 @@ class AuthRemoteDataSource {
           queryParameters: {'email': req.email, 'otp': req.otpCode});
 
       if (response.statusCode == 200) {
-        final OtpModel otpModel = OtpModel.fromJson(response.data);
-        if (otpModel.error) {
+        final Map<String, dynamic> mapdata =
+            response.data as Map<String, dynamic>;
+        final OtpModel otpModel = OtpModel.fromJson(mapdata);
+        if (otpModel.error ?? false) {
           throw Exception(otpModel.message);
         } else {
-          throw dioErrorHandler(response);
+          // throw dioErrorHandler(response);
         }
       }
     } on DioException catch (e) {
