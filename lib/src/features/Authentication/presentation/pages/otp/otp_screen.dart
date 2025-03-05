@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,12 +34,24 @@ class _OTPInputScreenState extends ConsumerState<OTPInputScreen> {
   String email = '';
 
   Future<void> validateOtp() async {
-    final otpReqModel = OtpReqModel(email: email, otpCode: 111111);
+    final otp = getOTP();
+
+    log(otp.toString());
+    final otpReqModel = OtpReqModel(email: email, otpCode: otp);
     ref.read(authControllerProvider.notifier).otpValidate(otpReqModel);
   }
 
   Future<void> resendOtp() async {
     ref.read(authControllerProvider.notifier).resendOtp(email);
+  }
+
+  int getOTP() {
+    String otpString = controllers.map((controller) => controller.text).join();
+    if (otpString.length != 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Please Enter all the required fields")));
+    }
+    return int.tryParse(otpString) ?? 0; // Default to 0 if parsing fails
   }
 
   @override
@@ -127,7 +142,7 @@ class _OTPInputScreenState extends ConsumerState<OTPInputScreen> {
                         style: AppTextStyles.regular(
                             fontSize: 12, fontColor: Color(0xff4f5862))),
                     TextSpan(
-                      text: 'abishek.s@gmail.com',
+                      text: email,
                       style: TextStyle(
                         fontSize: 12,
                         color: Color(0xff4f5862),
@@ -190,35 +205,7 @@ class _OTPInputScreenState extends ConsumerState<OTPInputScreen> {
                 width: 245,
                 child: ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          content: SizedBox(
-                            height: 221,
-                            width: 288,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.check_circle,
-                                  color: Colors.green,
-                                  size: 80,
-                                ),
-                                SizedBox(height: 26),
-                                Text('Successfully Verified',
-                                    style: AppTextStyles.semiBold(
-                                        fontWeight: FontWeight.w600,
-                                        fontColor: Color(0xff0B4c51))),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    validateOtp();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0B4C51),
@@ -245,7 +232,11 @@ class _OTPInputScreenState extends ConsumerState<OTPInputScreen> {
                         style: AppTextStyles.medium(
                             fontSize: 12, fontColor: Color(0xff6A6A6A))),
                     TextSpan(
-                        text: ' Resend', // Second line
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            resendOtp();
+                          },
+                        text: 'Resend', // Second line
                         style: AppTextStyles.medium(
                             fontSize: 12, fontColor: Color(0xff000000))),
                   ],
