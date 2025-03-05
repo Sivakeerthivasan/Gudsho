@@ -8,4 +8,5 @@ class ApiEndpoints {
   static final String register = "$baseUrl/api/signup";
   static final String otpVerify = "$baseUrl/api/otp/verify";
   static final String resendOtp = "$baseUrl/api/otp/generate";
+  static final String passwordReset = "$baseUrl/api/password/resetPassword";
 }

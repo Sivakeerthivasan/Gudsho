@@ -42,7 +42,7 @@ class AuthRemoteDataSource {
   Future<LoginResponse> loginUser(LoginInReqModel req) async {
     try {
       final Response response =
-          await dio.post("https://api-vm.gudsho.com/api/login", data: {
+          await dio.post(ApiEndpoints.login, data: {
         "email": req.email,
         "password": req.password,
         "logintype": req.logintype,
@@ -100,6 +100,27 @@ class AuthRemoteDataSource {
         if (result.status == 200 && result.data == 'true') {
           return result.message;
         }
+      }
+      throw dioErrorHandler(response);
+    } on DioException catch (e) {
+      throw dioErrorHandler(
+          e.response ?? Response(requestOptions: RequestOptions(path: '')));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> passwordReset(String email) async {
+    try {
+      final Response response = await dio
+          .post(ApiEndpoints.passwordReset, data: {'email': email});
+
+      if (response.statusCode == 200) {
+        final map = response.data;
+        return map['message'];
+      } else if (response.statusCode == 400) {
+        final map = response.data;
+        throw map['message'];
       }
       throw dioErrorHandler(response);
     } on DioException catch (e) {

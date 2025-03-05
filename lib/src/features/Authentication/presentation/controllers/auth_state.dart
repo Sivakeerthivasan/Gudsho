@@ -57,6 +57,7 @@ final class OtpErrorState extends AuthState {
 final class OtpSuccessState extends AuthState {
   const OtpSuccessState();
 }
+
 final class OtpResentLoading extends AuthState {
   const OtpResentLoading();
 }
@@ -70,3 +71,16 @@ final class OtpResentFailure extends AuthState {
   final CustomError error;
   const OtpResentFailure({required this.error});
 }
+
+final class PasswordResetSentSuccess extends AuthState {
+  final String message;
+
+  PasswordResetSentSuccess({required this.message});
+}
+
+final class PasswordResetError extends AuthState {
+  final CustomError error;
+  const PasswordResetError({required this.error});
+}
+
+final class PasswordResetLoading extends AuthState {}
