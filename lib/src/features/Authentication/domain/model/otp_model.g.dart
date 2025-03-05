@@ -11,7 +11,7 @@ _$OtpModelImpl _$$OtpModelImplFromJson(Map<String, dynamic> json) =>
       status: (json['status'] as num).toInt(),
       message: json['message'] as String,
       data: json['data'] as String,
-      error: json['error'] as bool,
+      error: json['error'] as bool?,
     );
 
 Map<String, dynamic> _$$OtpModelImplToJson(_$OtpModelImpl instance) =>

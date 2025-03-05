@@ -8,7 +8,7 @@ class OtpModel with _$OtpModel {
       {required int status,
       required String message,
       required String data,
-      required bool error}) = _OtpModel;
+      required bool? error}) = _OtpModel;
   factory OtpModel.fromJson(Map<String, dynamic> json) =>
       _$OtpModelFromJson(json);
 }
