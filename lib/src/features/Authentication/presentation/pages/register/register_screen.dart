@@ -13,6 +13,9 @@ import 'package:gudsho/src/features/Authentication/presentation/controllers/auth
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  ConsumerState<RegisterScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends ConsumerState<RegisterScreen> {
