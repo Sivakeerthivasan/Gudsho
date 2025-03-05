@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gudsho/features/Authentication/presentation/signUp/signup_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gudsho/src/core/config/environment.dart';
+import 'package:gudsho/src/core/router/app_router.dart';
 
 void main() {
-  runApp(const MyApp());
+  EnvironmentConfig.initialize(Environment.dev);
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -10,11 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: goRouter,
       title: 'Gudsho',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: SignupScreen(),
     );
   }
 }
