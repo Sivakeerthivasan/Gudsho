@@ -9,7 +9,7 @@ import 'package:gudsho/src/features/Authentication/presentation/pages/register/r
 import 'package:gudsho/src/features/dashboard/presentation/dashboard.dart';
 
 final goRouter = GoRouter(
-  initialLocation: '/register',
+  initialLocation: '/login',
   debugLogDiagnostics: false,
   routes: [
     GoRoute(
