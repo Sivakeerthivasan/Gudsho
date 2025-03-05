@@ -9,9 +9,10 @@ class AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
   AuthRepository(this.authRemoteDataSource);
 
-  Future<void> registerNewUser(RegisterReqModel req) async {
+  Future<String> registerNewUser(RegisterReqModel req) async {
     try {
-      await authRemoteDataSource.registerNewUser(req);
+      final res = await authRemoteDataSource.registerNewUser(req);
+      return res;
     } catch (e) {
       throw CustomError(errMsg: e.toString());
     }

@@ -21,10 +21,10 @@ class AuthController extends _$AuthController {
     state = AuthLoadingState();
     try {
       String md5Hash = md5.convert(utf8.encode(req.password)).toString();
-      await ref
+      final res = await ref
           .read(authRepositoryProvider)
           .registerNewUser(req.copyWith(password: md5Hash));
-      state = OtpSentState();
+      state = OtpSentState(message: res);
     } on CustomError catch (error) {
       state = AuthFailureState(error: error);
     }

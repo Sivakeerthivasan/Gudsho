@@ -39,7 +39,8 @@ final class AuthFailureState extends AuthState {
 
 //! OTP SCREEN STATES
 final class OtpSentState extends AuthState {
-  const OtpSentState();
+  const OtpSentState({required this.message});
+  final String message;
   @override
   String toString() => 'OtpSentState()';
 }
