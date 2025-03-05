@@ -28,6 +28,10 @@ class AuthRemoteDataSource {
       });
 
       if (response.statusCode == 200) {
+        final res = response.data;
+        if (res['status'] == 400) {
+          throw res['message'];
+        }
       } else {
         throw dioErrorHandler(response);
       }
@@ -41,8 +45,7 @@ class AuthRemoteDataSource {
 
   Future<LoginResponse> loginUser(LoginInReqModel req) async {
     try {
-      final Response response =
-          await dio.post(ApiEndpoints.login, data: {
+      final Response response = await dio.post(ApiEndpoints.login, data: {
         "email": req.email,
         "password": req.password,
         "logintype": req.logintype,
@@ -112,8 +115,8 @@ class AuthRemoteDataSource {
 
   Future<String> passwordReset(String email) async {
     try {
-      final Response response = await dio
-          .post(ApiEndpoints.passwordReset, data: {'email': email});
+      final Response response =
+          await dio.post(ApiEndpoints.passwordReset, data: {'email': email});
 
       if (response.statusCode == 200) {
         final map = response.data;

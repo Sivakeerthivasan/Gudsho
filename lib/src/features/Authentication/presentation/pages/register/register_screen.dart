@@ -119,8 +119,11 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
     final email = emailController.text;
     final phone = _phoneController.text;
     final password = _passwordController.text;
-    final countryCodeShort = countryCode1!.code;
-    final country = 'India';
+
+    final countryCodeShort = countryCode1?.code??"IN";//!fixme later with proper validation
+    final country = 'India'; //!fixme !hardcoded
+
+
 
     final reqData = RegisterReqModel(
         phoneNumber: phone,
