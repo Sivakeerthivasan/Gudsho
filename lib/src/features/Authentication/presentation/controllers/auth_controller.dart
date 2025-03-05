@@ -63,4 +63,14 @@ class AuthController extends _$AuthController {
       state = OtpResentFailure(error: error);
     }
   }
+
+  Future<void> passwordReset(String email) async {
+    state = PasswordResetLoading();
+    try {
+      final res = await ref.read(authRepositoryProvider).passwordReset(email);
+      state = PasswordResetSentSuccess(message: res);
+    } on CustomError catch (error) {
+      state = PasswordResetError(error: error);
+    }
+  }
 }

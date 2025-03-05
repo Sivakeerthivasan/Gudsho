@@ -109,4 +109,25 @@ class AuthRemoteDataSource {
       rethrow;
     }
   }
+
+  Future<String> passwordReset(String email) async {
+    try {
+      final Response response = await dio
+          .post(ApiEndpoints.passwordReset, data: {'email': email});
+
+      if (response.statusCode == 200) {
+        final map = response.data;
+        return map['message'];
+      } else if (response.statusCode == 400) {
+        final map = response.data;
+        throw map['message'];
+      }
+      throw dioErrorHandler(response);
+    } on DioException catch (e) {
+      throw dioErrorHandler(
+          e.response ?? Response(requestOptions: RequestOptions(path: '')));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

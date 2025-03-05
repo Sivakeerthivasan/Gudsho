@@ -42,4 +42,13 @@ class AuthRepository {
       throw CustomError(errMsg: error.toString());
     }
   }
+
+  Future<String> passwordReset(String email) async {
+    try {
+      final successMsg = await authRemoteDataSource.passwordReset(email);
+      return successMsg;
+    } catch (error) {
+      throw CustomError(errMsg: error.toString());
+    }
+  }
 }
