@@ -120,7 +120,7 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
     final phone = _phoneController.text;
     final password = _passwordController.text;
     final countryCodeShort = countryCode1!.code;
-    final country = 'India'; //!hardcoded
+    final country = 'India';
 
     final reqData = RegisterReqModel(
         phoneNumber: phone,
