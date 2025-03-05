@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:gudsho/src/core/assets/assets.dart';
 import 'package:gudsho/src/core/constants/styles/fonts_style.dart';
+import 'package:gudsho/src/core/router/routes_constants.dart';
 import 'package:gudsho/src/core/utils/form_validator.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_controller.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_state.dart';
-
 
 class ResetWithmail extends ConsumerStatefulWidget {
   const ResetWithmail({super.key});
@@ -32,7 +33,7 @@ class _ResetWithmailState extends ConsumerState<ResetWithmail> {
         if (next is PasswordResetSentSuccess) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(next.message)));
-              _emailController.clear();
+          _emailController.clear();
         } else if (next is PasswordResetError) {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(next.error.errMsg)));
@@ -112,7 +113,6 @@ class _ResetWithmailState extends ConsumerState<ResetWithmail> {
                     ref
                         .read(authControllerProvider.notifier)
                         .passwordReset(_emailController.text.trim());
-
                   }
                   // Navigator.push(
                   //   context,
@@ -140,9 +140,14 @@ class _ResetWithmailState extends ConsumerState<ResetWithmail> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Already have an account?'),
-                  Text(
-                    ' Sign in',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      context.goNamed(AppRoute.login.name);
+                    },
+                    child: Text(
+                      ' Sign in',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               )

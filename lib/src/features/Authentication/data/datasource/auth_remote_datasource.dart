@@ -42,7 +42,7 @@ class AuthRemoteDataSource {
   Future<LoginResponse> loginUser(LoginInReqModel req) async {
     try {
       final Response response =
-          await dio.post("https://api-vm.gudsho.com/api/login", data: {
+          await dio.post(ApiEndpoints.login, data: {
         "email": req.email,
         "password": req.password,
         "logintype": req.logintype,
