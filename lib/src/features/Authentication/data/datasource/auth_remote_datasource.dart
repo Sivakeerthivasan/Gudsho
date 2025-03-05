@@ -15,7 +15,7 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource({required this.dio});
 
-  Future<void> registerNewUser(RegisterReqModel req) async {
+  Future<String> registerNewUser(RegisterReqModel req) async {
     try {
       final Response response = await dio.post(ApiEndpoints.register, data: {
         "phoneNumber": req.phoneNumber,
@@ -31,10 +31,11 @@ class AuthRemoteDataSource {
         final res = response.data;
         if (res['status'] == 400) {
           throw res['message'];
+        } else if (res['status'] == 200) {
+          return res['message'];
         }
-      } else {
-        throw dioErrorHandler(response);
       }
+      throw dioErrorHandler(response);
     } on DioException catch (e) {
       throw dioErrorHandler(
           e.response ?? Response(requestOptions: RequestOptions(path: '')));

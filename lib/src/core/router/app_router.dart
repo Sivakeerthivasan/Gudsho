@@ -24,9 +24,11 @@ final goRouter = GoRouter(
         final mapData = state.extra as Map<String, dynamic>?;
         final bool isTriggerOtp = mapData?['isGenerateOtp'] ?? false;
         final LoginResponse? loginResponse = mapData?['loginResponse'];
+        final String? email = mapData?['email'];
         return OTPInputScreen(
           isGenerateOtp: isTriggerOtp,
           loginResponse: loginResponse,
+          emailAddress: email,
         );
       },
     ),

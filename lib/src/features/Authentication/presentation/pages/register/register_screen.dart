@@ -120,10 +120,9 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
     final phone = _phoneController.text;
     final password = _passwordController.text;
 
-    final countryCodeShort = countryCode1?.code??"IN";//!fixme later with proper validation
+    final countryCodeShort =
+        countryCode1?.code ?? "IN"; //!fixme later with proper validation
     final country = 'India'; //!fixme !hardcoded
-
-
 
     final reqData = RegisterReqModel(
         phoneNumber: phone,
@@ -142,7 +141,8 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
       authControllerProvider,
       (previous, next) {
         if (next is OtpSentState) {
-          context.pushNamed(AppRoute.otp.name);
+          context.pushNamed(AppRoute.otp.name,
+              extra: {'email': emailController.text.trim()});
         } else if (next is AuthFailureState) {
 //! show dialog next.error
           ScaffoldMessenger.of(context)
