@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,13 +10,9 @@ import 'package:gudsho/src/core/router/routes_constants.dart';
 import 'package:gudsho/src/features/Authentication/domain/request_model/register_request_model.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_controller.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_state.dart';
-import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
-
-  @override
-  ConsumerState<RegisterScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends ConsumerState<RegisterScreen> {
