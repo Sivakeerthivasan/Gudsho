@@ -14,7 +14,7 @@ class TextFormFieldValidator {
       return 'Please enter a valid email address';
     }
 
-    return null; // Valid email
+    return null;
   }
 
   /// Validates a password

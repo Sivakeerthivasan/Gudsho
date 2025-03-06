@@ -1,4 +1,5 @@
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +11,7 @@ import 'package:gudsho/src/core/router/routes_constants.dart';
 import 'package:gudsho/src/features/Authentication/domain/request_model/register_request_model.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_controller.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -119,10 +121,8 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
     final email = emailController.text;
     final phone = _phoneController.text;
     final password = _passwordController.text;
-
-    final countryCodeShort =
-        countryCode1?.code ?? "IN"; //!fixme later with proper validation
-    final country = 'India'; //!fixme !hardcoded
+    final countryCodeShort = countryCode1!.code;
+    final country = 'India'; //!hardcoded
 
     final reqData = RegisterReqModel(
         phoneNumber: phone,
@@ -141,8 +141,7 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
       authControllerProvider,
       (previous, next) {
         if (next is OtpSentState) {
-          context.pushNamed(AppRoute.otp.name,
-              extra: {'email': emailController.text.trim()});
+          context.pushNamed(AppRoute.otp.name);
         } else if (next is AuthFailureState) {
 //! show dialog next.error
           ScaffoldMessenger.of(context)
@@ -690,6 +689,13 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
                                   text:
                                       "By continuing, you're agreeing to Gudsho "),
                               TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    final uri = Uri.parse(
+                                        'https://www.gudsho.com/terms-and-conditions');
+                                    launchUrl(uri,
+                                        mode: LaunchMode.inAppBrowserView);
+                                  },
                                 text: "Terms of \nService",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -699,6 +705,13 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
                                 text: " and ",
                               ),
                               TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    final uri = Uri.parse(
+                                        'https://www.gudsho.com/privacy-policy');
+                                    launchUrl(uri,
+                                        mode: LaunchMode.inAppBrowserView);
+                                  },
                                 text: "Privacy Policy",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
