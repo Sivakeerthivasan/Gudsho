@@ -1,4 +1,3 @@
-import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +10,8 @@ import 'package:gudsho/src/core/router/routes_constants.dart';
 import 'package:gudsho/src/features/Authentication/domain/request_model/register_request_model.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_controller.dart';
 import 'package:gudsho/src/features/Authentication/presentation/controllers/auth_state.dart';
+import 'package:gudsho/src/features/Authentication/presentation/pages/sign_in/countryPicker/lib/src/fl_country_code_picker.dart';
+import 'package:gudsho/src/features/Authentication/presentation/pages/sign_in/countryPicker/lib/src/models/country_code.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -29,7 +30,7 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
   final passwordFocus = FocusNode();
   final pickerController = FlCountryCodePicker();
   String countryCode = '+91';
-  CountryCode? countryCode1;
+  CountryCode? countryFlag;
   final TextEditingController _nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -121,7 +122,7 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
     final email = emailController.text;
     final phone = _phoneController.text;
     final password = _passwordController.text;
-    final countryCodeShort = countryCode1!.code;
+    final countryCodeShort = countryCode;
     final country = 'India'; //!hardcoded
 
     final reqData = RegisterReqModel(
@@ -186,593 +187,604 @@ class _SignInScreenState extends ConsumerState<RegisterScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 23, right: 23),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              onChanged: () {
-                _validateForm();
-              },
-              child: Column(
-                children: [
-                  Text('Start Crafting Your Videos - \n Sign Up now!',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.semiBold()),
-                  SizedBox(height: 30),
-//Google and linked in
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2.3,
-                        height: 45,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: AppColors.borderGL),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              Assets.googleIcon,
-                              height: 40,
-                              width: 40,
-                            ),
-                            Text("Google",
-                                style: AppTextStyles.medium(
-                                    fontColor: AppColors.textClick)),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-
-// Facebook Button
-                      Container(
-                        width: MediaQuery.of(context).size.width / 2.4,
-                        height: 45,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: AppColors.borderGL),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/svg/linkedin_icon.svg",
-                              height: 40,
-                              width: 40,
-                            ),
-                            Text(
-                              "Linkedin",
-                              style: AppTextStyles.medium(
-                                  fontColor: AppColors.textClick),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-//Or design
-                  SizedBox(
-                    height: 13,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Row(
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                onChanged: () {
+                  _validateForm();
+                },
+                child: Column(
+                  children: [
+                    Text('Start Crafting Your Videos - \n Sign Up now!',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.semiBold()),
+                    SizedBox(height: 30),
+                    //Google and linked in
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.grey,
-                                  Colors.grey.withValues(alpha: 0.0)
-                                ],
-                                begin: Alignment.centerRight,
-                                end: Alignment.centerLeft,
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.3,
+                          height: 45,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(color: AppColors.borderGL),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                Assets.googleIcon,
+                                height: 40,
+                                width: 40,
                               ),
-                            ),
+                              Text("Google",
+                                  style: AppTextStyles.medium(
+                                      fontColor: AppColors.textClick)),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text("Or", style: AppTextStyles.regular()),
+                        SizedBox(
+                          width: 10,
                         ),
-                        Expanded(
-                          child: Container(
-                            height: 1,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.grey,
-                                  Colors.grey.withValues(alpha: 0.0)
-                                ],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
+
+                        // Facebook Button
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.4,
+                          height: 45,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(7),
+                            border: Border.all(color: AppColors.borderGL),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/svg/linkedin_icon.svg",
+                                height: 40,
+                                width: 40,
                               ),
-                            ),
+                              Text(
+                                "Linkedin",
+                                style: AppTextStyles.medium(
+                                    fontColor: AppColors.textClick),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 20),
-//4 Textfield
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              "Full Name ",
-                              style: AppTextStyles.medium(
-                                  fontColor: AppColors.textfieldName),
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(
-                                  color: AppColors.errorText, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          controller: _nameController,
-                          textInputAction: TextInputAction.next,
-                          focusNode: fullNameFocus,
-                          onFieldSubmitted: (value) {
-                            FocusScope.of(context).requestFocus(emailFocus);
-                          },
-                          onChanged: _validateInput,
-                          validator: (value) {
-                            if (value == null) {
-                              _validateInput(value!);
-                            }
-                            return null;
-                          },
-                          style: TextStyle(color: AppColors.inputText),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: _errorText != null
-                                    ? AppColors.errorText
-                                    : AppColors.textfieldBorder,
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: _errorText != null
-                                    ? AppColors.errorText
-                                    : AppColors.focusedBorder,
-                                width: 1,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: _errorText != null
-                                    ? AppColors.errorText
-                                    : AppColors.textfieldBorder,
-                                width: 1,
+                    SizedBox(height: 20),
+                    //Or design
+                    SizedBox(
+                      height: 13,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.grey,
+                                    Colors.grey.withValues(alpha: 0.0)
+                                  ],
+                                  begin: Alignment.centerRight,
+                                  end: Alignment.centerLeft,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        if (_errorText != null)
                           Padding(
-                            padding: const EdgeInsets.only(top: 4, right: 20),
-                            child: Text(
-                              _errorText!,
-                              style: TextStyle(
-                                  color: AppColors.errorText, fontSize: 12),
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text("Or", style: AppTextStyles.regular()),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 1,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.grey,
+                                    Colors.grey.withValues(alpha: 0.0)
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
+                              ),
                             ),
                           ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              "Email Address",
-                              style: AppTextStyles.medium(
-                                  fontColor: AppColors.textfieldName),
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(
-                                  color: AppColors.errorText, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          controller: emailController,
-                          focusNode: emailFocus,
-                          textInputAction: TextInputAction.next,
-                          onFieldSubmitted: (value) {
-                            FocusScope.of(context).requestFocus(phoneFocus);
-                          },
-                          onChanged: validateEmail,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              validateEmail(value!);
-                            }
-                            return null;
-                          },
-                          style: TextStyle(color: AppColors.inputText),
-                          decoration: InputDecoration(
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    //4 Textfield
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Full Name ",
+                                style: AppTextStyles.medium(
+                                    fontColor: AppColors.textfieldName),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    color: AppColors.errorText, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            controller: _nameController,
+                            textInputAction: TextInputAction.next,
+                            focusNode: fullNameFocus,
+                            onFieldSubmitted: (value) {
+                              FocusScope.of(context).requestFocus(emailFocus);
+                            },
+                            onChanged: _validateInput,
+                            validator: (value) {
+                              if (value == null) {
+                                _validateInput(value!);
+                              }
+                              return null;
+                            },
+                            style: TextStyle(color: AppColors.inputText),
+                            decoration: InputDecoration(
                               contentPadding:
                                   EdgeInsets.symmetric(horizontal: 12),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4),
                                 borderSide: BorderSide(
-                                    color: isValidEmail
-                                        ? AppColors.textfieldBorder
-                                        : AppColors.errorText,
-                                    width: 1),
+                                  color: _errorText != null
+                                      ? AppColors.errorText
+                                      : AppColors.textfieldBorder,
+                                  width: 1,
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4),
                                 borderSide: BorderSide(
-                                    color: isValidEmail
-                                        ? AppColors.focusedBorder
-                                        : AppColors.errorText,
-                                    width: 1),
+                                  color: _errorText != null
+                                      ? AppColors.errorText
+                                      : AppColors.focusedBorder,
+                                  width: 1,
+                                ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(4),
                                 borderSide: BorderSide(
-                                    color: isValidEmail
-                                        ? AppColors.textfieldBorder
-                                        : AppColors.errorText,
-                                    width: 1),
-                              )),
-                        ),
-                        if (!isValidEmail)
-                          Padding(
-                            padding: EdgeInsets.only(top: 5, right: 20),
-                            child: Text(
-                              "Please enter a valid email address",
-                              style: TextStyle(
-                                  color: AppColors.errorText, fontSize: 12),
+                                  color: _errorText != null
+                                      ? AppColors.errorText
+                                      : AppColors.textfieldBorder,
+                                  width: 1,
+                                ),
+                              ),
                             ),
                           ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Text("Phone Number",
-                                style: AppTextStyles.medium(
-                                    fontColor: AppColors.textfieldName)),
-                            Text(
-                              "*",
-                              style: TextStyle(
-                                  color: AppColors.errorText, fontSize: 16),
+                          if (_errorText != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4, right: 20),
+                              child: Text(
+                                _errorText!,
+                                style: TextStyle(
+                                    color: AppColors.errorText, fontSize: 12),
+                              ),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          maxLength: 10,
-                          controller: _phoneController,
-                          textInputAction: TextInputAction.next,
-                          focusNode: phoneFocus,
-                          onFieldSubmitted: (value) {
-                            FocusScope.of(context).requestFocus(passwordFocus);
-                          },
-                          keyboardType: TextInputType.phone,
-                          style: TextStyle(color: AppColors.inputText),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 12),
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  countryCode1?.flagImage() ??
-                                      SvgPicture.asset(
-                                        Assets.indianFlag,
-                                        width: 23,
-                                        height: 15,
-                                      ),
-                                  SizedBox(width: 8),
-                                  InkWell(
-                                    onTap: () async {
-                                      final picker = await pickerController
-                                          .showPicker(context: context);
-                                      setState(() {
-                                        countryCode1 = picker;
-                                        countryCode =
-                                            picker?.dialCode.toString() ??
-                                                countryCode;
-                                      });
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          countryCode,
-                                          style: TextStyle(
-                                            color: AppColors.textNoClick,
-                                            fontSize: 16,
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Email Address",
+                                style: AppTextStyles.medium(
+                                    fontColor: AppColors.textfieldName),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    color: AppColors.errorText, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            controller: emailController,
+                            focusNode: emailFocus,
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (value) {
+                              FocusScope.of(context).requestFocus(phoneFocus);
+                            },
+                            onChanged: validateEmail,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                validateEmail(value!);
+                              }
+                              return null;
+                            },
+                            style: TextStyle(color: AppColors.inputText),
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 12),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                      color: isValidEmail
+                                          ? AppColors.textfieldBorder
+                                          : AppColors.errorText,
+                                      width: 1),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                      color: isValidEmail
+                                          ? AppColors.focusedBorder
+                                          : AppColors.errorText,
+                                      width: 1),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(4),
+                                  borderSide: BorderSide(
+                                      color: isValidEmail
+                                          ? AppColors.textfieldBorder
+                                          : AppColors.errorText,
+                                      width: 1),
+                                )),
+                          ),
+                          if (!isValidEmail)
+                            Padding(
+                              padding: EdgeInsets.only(top: 5, right: 20),
+                              child: Text(
+                                "Please enter a valid email address",
+                                style: TextStyle(
+                                    color: AppColors.errorText, fontSize: 12),
+                              ),
+                            ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text("Phone Number",
+                                  style: AppTextStyles.medium(
+                                      fontColor: AppColors.textfieldName)),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    color: AppColors.errorText, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          TextFormField(
+                            maxLength: 10,
+                            controller: _phoneController,
+                            textInputAction: TextInputAction.next,
+                            focusNode: phoneFocus,
+                            onFieldSubmitted: (value) {
+                              FocusScope.of(context)
+                                  .requestFocus(passwordFocus);
+                            },
+                            keyboardType: TextInputType.phone,
+                            style: TextStyle(color: AppColors.inputText),
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 12),
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: InkWell(
+                                  onTap: () async {
+                                    final picked =
+                                        await pickerController.showPicker(
+                                      context: context,
+                                      scrollToDeviceLocale: true,
+                                    );
+                                    setState(() {
+                                      countryFlag = picked;
+                                      countryCode =
+                                          picked?.dialCode.toString() ??
+                                              countryCode;
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      countryFlag?.flagImage() ??
+                                          SvgPicture.asset(
+                                            Assets.indianFlag,
+                                            width: 23,
+                                            height: 15,
                                           ),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Icon(Icons.arrow_drop_down_rounded,
-                                            color: AppColors.textNoClick,
-                                            size: 20),
-                                      ],
-                                    ),
+                                      SizedBox(width: 8),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            countryCode,
+                                            style: TextStyle(
+                                              color: AppColors.textNoClick,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          SizedBox(width: 4),
+                                          Icon(Icons.arrow_drop_down_rounded,
+                                              color: AppColors.textNoClick,
+                                              size: 20),
+                                        ],
+                                      ),
+                                      SizedBox(width: 8),
+                                      Container(
+                                        height: 20,
+                                        width: 1,
+                                        color: Color(0xff6A6A6A),
+                                      ),
+                                      SizedBox(width: 8),
+                                    ],
                                   ),
-                                  SizedBox(width: 8),
-                                  Container(
-                                    height: 20,
-                                    width: 1,
-                                    color: Color(0xff6A6A6A),
+                                ),
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: AppColors.textfieldBorder, width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: AppColors.focusedBorder, width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: AppColors.textfieldBorder, width: 1),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Text(
+                                "Password",
+                                style: AppTextStyles.medium(
+                                    fontColor: AppColors.textfieldName),
+                              ),
+                              Text(
+                                "*",
+                                style: TextStyle(
+                                    color: AppColors.errorText, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          if (_showValidationContainer)
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'PASSWORD MUST CONTAIN :',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  SizedBox(width: 8),
+                                  _buildValidationText(
+                                      "8 or more characters", hasMinLength),
+                                  _buildValidationText(
+                                      "At least 1 number", hasNumber),
+                                  _buildValidationText(
+                                      "At least 1 UPPER or LOWER CASE",
+                                      hasLetter),
+                                  _buildValidationText(
+                                      "At least 1 special character",
+                                      hasSpecialChar),
                                 ],
                               ),
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                  color: AppColors.textfieldBorder, width: 1),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                  color: AppColors.focusedBorder, width: 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                  color: AppColors.textfieldBorder, width: 1),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Text(
-                              "Password",
-                              style: AppTextStyles.medium(
-                                  fontColor: AppColors.textfieldName),
-                            ),
-                            Text(
-                              "*",
-                              style: TextStyle(
-                                  color: AppColors.errorText, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        if (_showValidationContainer)
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'PASSWORD MUST CONTAIN :',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                          TextFormField(
+                            controller: _passwordController,
+                            textInputAction: TextInputAction.done,
+                            validator: (value) {
+                              if (value != null) {
+                                validatePassword();
+                              }
+                              return null;
+                            },
+                            focusNode: passwordFocus,
+                            onFieldSubmitted: (value) {
+                              passwordFocus.unfocus();
+                            },
+                            obscureText: obscureText,
+                            style: TextStyle(
+                                color: AppColors.inputText, fontSize: 16),
+                            decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: AppColors.textfieldBorder, width: 1),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: AppColors.focusedBorder, width: 1),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: AppColors.textfieldBorder, width: 1),
+                              ),
+                              suffixIcon: IconButton(
+                                iconSize: 24,
+                                icon: Icon(
+                                  obscureText
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: Color(0xff6A6A6A),
                                 ),
-                                _buildValidationText(
-                                    "8 or more characters", hasMinLength),
-                                _buildValidationText(
-                                    "At least 1 number", hasNumber),
-                                _buildValidationText(
-                                    "At least 1 UPPER or LOWER CASE",
-                                    hasLetter),
-                                _buildValidationText(
-                                    "At least 1 special character",
-                                    hasSpecialChar),
+                                onPressed: () {
+                                  setState(() {
+                                    obscureText = !obscureText;
+                                  });
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      height: 60,
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(top: 3),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isChecked = !isChecked;
+                                  });
+                                  _validateForm();
+                                },
+                                child: Container(
+                                  height: 16,
+                                  width: 16,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(2),
+                                    color:
+                                        isChecked ? Colors.blue : Colors.white,
+                                    border: Border.all(
+                                        color: AppColors.textfieldBorder),
+                                  ),
+                                  child: isChecked
+                                      ? Icon(Icons.check,
+                                          color: Colors.white, size: 12)
+                                      : null,
+                                ),
+                              )),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                height: 1.4,
+                                fontSize: 12,
+                                color: AppColors.textClickBOLD,
+                              ),
+                              children: [
+                                TextSpan(
+                                    text:
+                                        "By continuing, you're agreeing to Gudsho "),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      final uri = Uri.parse(
+                                          'https://www.gudsho.com/terms-and-conditions');
+                                      launchUrl(uri,
+                                          mode: LaunchMode.inAppBrowserView);
+                                    },
+                                  text: "Terms of \nService",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline),
+                                ),
+                                TextSpan(
+                                  text: " and ",
+                                ),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      final uri = Uri.parse(
+                                          'https://www.gudsho.com/privacy-policy');
+                                      launchUrl(uri,
+                                          mode: LaunchMode.inAppBrowserView);
+                                    },
+                                  text: "Privacy Policy",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline),
+                                ),
+                                TextSpan(
+                                    text:
+                                        ". Consent includes receiving \nmarketing information from Gudsho."),
                               ],
                             ),
-                          ),
-                        TextFormField(
-                          controller: _passwordController,
-                          textInputAction: TextInputAction.done,
-                          validator: (value) {
-                            if (value != null) {
-                              validatePassword();
-                            }
-                            return null;
-                          },
-                          focusNode: passwordFocus,
-                          onFieldSubmitted: (value) {
-                            passwordFocus.unfocus();
-                          },
-                          obscureText: obscureText,
-                          style: TextStyle(
-                              color: AppColors.inputText, fontSize: 16),
-                          decoration: InputDecoration(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 10),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                  color: AppColors.textfieldBorder, width: 1),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                  color: AppColors.focusedBorder, width: 1),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                  color: AppColors.textfieldBorder, width: 1),
-                            ),
-                            suffixIcon: IconButton(
-                              iconSize: 24,
-                              icon: Icon(
-                                obscureText
-                                    ? Icons.visibility_off_outlined
-                                    : Icons.visibility_outlined,
-                                color: Color(0xff6A6A6A),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  obscureText = !obscureText;
-                                });
-                              },
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  SizedBox(
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                            padding: const EdgeInsets.only(top: 3),
-                            child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  isChecked = !isChecked;
-                                });
-                                _validateForm();
-                              },
-                              child: Container(
-                                height: 16,
-                                width: 16,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(2),
-                                  color: isChecked ? Colors.blue : Colors.white,
-                                  border: Border.all(
-                                      color: AppColors.textfieldBorder),
-                                ),
-                                child: isChecked
-                                    ? Icon(Icons.check,
-                                        color: Colors.white, size: 12)
-                                    : null,
-                              ),
-                            )),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              height: 1.4,
-                              fontSize: 12,
-                              color: AppColors.textClickBOLD,
-                            ),
-                            children: [
-                              TextSpan(
-                                  text:
-                                      "By continuing, you're agreeing to Gudsho "),
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    final uri = Uri.parse(
-                                        'https://www.gudsho.com/terms-and-conditions');
-                                    launchUrl(uri,
-                                        mode: LaunchMode.inAppBrowserView);
-                                  },
-                                text: "Terms of \nService",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline),
-                              ),
-                              TextSpan(
-                                text: " and ",
-                              ),
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    final uri = Uri.parse(
-                                        'https://www.gudsho.com/privacy-policy');
-                                    launchUrl(uri,
-                                        mode: LaunchMode.inAppBrowserView);
-                                  },
-                                text: "Privacy Policy",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline),
-                              ),
-                              TextSpan(
-                                  text:
-                                      ". Consent includes receiving \nmarketing information from Gudsho."),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-//Signup button
-                  SizedBox(
-                    height: 46,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: isButtonEnabled
-                          ? () {
-                              registerUser();
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.buttonColor,
-                        foregroundColor: AppColors.buttonText,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
+                          )
+                        ],
                       ),
-                      child: authState is AuthLoadingState
-                          ? CircularProgressIndicator()
-                          : Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-//Navigate to sign in page
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Already have an account?',
-                          style: AppTextStyles.medium(
-                              fontSize: 12, fontColor: AppColors.textNoClick)),
-                      InkWell(
-                        onTap: () {
-                          context.goNamed(AppRoute.login.name);
-                        },
-                        child: Text(' Sign in',
+                    SizedBox(height: 10),
+                    //Signup button
+                    SizedBox(
+                      height: 46,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: isButtonEnabled
+                            ? () {
+                                registerUser();
+                              }
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.buttonColor,
+                          foregroundColor: AppColors.buttonText,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        child: authState is AuthLoadingState
+                            ? CircularProgressIndicator()
+                            : Text(
+                                "Sign Up",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    //Navigate to sign in page
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Already have an account?',
                             style: AppTextStyles.medium(
-                                fontWeight: FontWeight.bold, fontSize: 12)),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 26)
-                ],
+                                fontSize: 12,
+                                fontColor: AppColors.textNoClick)),
+                        InkWell(
+                          onTap: () {
+                            context.goNamed(AppRoute.login.name);
+                          },
+                          child: Text(' Sign in',
+                              style: AppTextStyles.medium(
+                                  fontWeight: FontWeight.bold, fontSize: 12)),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 26)
+                  ],
+                ),
               ),
             ),
           ),
