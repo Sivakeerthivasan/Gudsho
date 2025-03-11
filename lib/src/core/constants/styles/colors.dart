@@ -16,4 +16,6 @@ class AppColors {
   static const Color borderGL = Color(0xFFB3BAC2);
 
   static const Color errorText = Colors.red;
+  static const Color dashBoardBtnColor1 = Color(0xFFFF8A70);
+  static const Color dashBoardBtnColor2 = Color(0xFFFFEA73);
 }
