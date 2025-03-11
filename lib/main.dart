@@ -1,11 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gudsho/src/core/config/environment.dart';
 import 'package:gudsho/src/core/router/app_router.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() {
   EnvironmentConfig.initialize(Environment.dev);
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(
+      child: DevicePreview(
+          enabled: !kReleaseMode, builder: (context) => const MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,6 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       routerConfig: goRouter,
       title: 'Gudsho',
       debugShowCheckedModeBanner: false,
